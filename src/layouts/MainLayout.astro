@@ -1,17 +1,17 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import Navbar from "@/components/shared/Navbar.astro";
 import { siteInfo } from "src/config/constants";
+import Navbar2N from "@/components/shared/Navbar2N.astro";
 
 interface Props {
   title?: string;
   descritpion?: string;
   isNavbar?: boolean;
 }
-const { 
-  title = siteInfo.title, 
-  descritpion=siteInfo.description, 
-  isNavbar=true 
+const {
+  title = siteInfo.title,
+  descritpion = siteInfo.description,
+  isNavbar = true,
 } = Astro.props;
 ---
 
@@ -23,21 +23,20 @@ const {
     <meta name="generator" content={Astro.generator} />
 
     <!-- SEO -->
-     <meta name="description" content={descritpion} />
-     <meta name="author" content="Vengardus" />
-    
+    <meta name="description" content={descritpion} />
+    <meta name="author" content="Vengardus" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={descritpion} />
 
     <title>{title ?? "Vengardus Page"}</title>
-    
-    <ViewTransitions />
 
+    <ViewTransitions />
   </head>
-  
+
   <body class="bg-slate-800 text-slate-100">
-    {isNavbar && <Navbar />}
+    {isNavbar && <Navbar2N />}
     <main class="mt-2 m-auto w-full max-w-4xl flex-grow px-4">
       <slot />
     </main>

@@ -1,5 +1,42 @@
----
 
 ---
+import { navBarOptions } from "@/config/constants";
 
-<div>Navbar</div>
+const links = navBarOptions
+
+const currentPath = Astro.url.pathname;
+---
+
+<!-- component --><!-- <nav class="bg-white shadow dark:bg-gray-800"> -->
+<nav class="bg-slate-800 shadow">
+  <div
+    class="container flex items-center justify-center p-6 mx-auto text-gray-600 dark:text-gray-300 flex-wrap"
+  >
+    {
+      links.map((link) => (
+        <div>
+          <a
+            href={link.path}
+            class="hover:text-gray-800 dark:hover:text-gray-200 hover:border-blue-500 mx-1.5 sm:mx-6",
+          >
+            {link.name}
+          </a>
+
+          {
+            link.path == currentPath  
+              ? <div 
+                class="border-b-2 border-blue-500 mx-4"
+                transition:name="{link.name}-nav"
+              >
+              </div>
+              : <div 
+                class="border-b-2 border-transparent "
+              >
+              </div>
+          }
+        </div>
+
+      ))
+    }
+  </div>
+</nav>
