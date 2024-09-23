@@ -20,11 +20,11 @@ export const navBarOptions: Navbar[] = [
     options: [
       {
         name: "Isla 1",
-        path: "/isla1",
+        path: "/islands/island1",
       },
       {
         name: "Isla 2",
-        path: "/isla2",
+        path: "/islands/island2",
       },
     ],
   },
