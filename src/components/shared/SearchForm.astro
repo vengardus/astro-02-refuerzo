@@ -1,9 +1,15 @@
 ---
 
+
+interface Props {
+  routeSearch?: string
+}
+
+const { routeSearch = '/countries/search' } = Astro.props
 ---
 
 
-<form id="search-form" class="flex items-center" action="/countries/search" >
+<form id="search-form" class="flex items-center" action={routeSearch} >
   <label for="query" class="sr-only">Search</label>
   <div class="relative w-full">
     <input
