@@ -1,7 +1,8 @@
 ---
 import { ViewTransitions } from "astro:transitions";
-import Navbar2N from "@/components/shared/Navbar2N.astro";
+//import Navbar2N from "@/components/shared/Navbar2N.astro";
 import { SITE_INFO } from "@/config/constants";
+import Navbar from "@/components/shared/Navbar.astro";
 
 interface Props {
   title?: string;
@@ -36,7 +37,7 @@ const {
   </head>
 
   <body class="bg-slate-800 text-slate-100">
-    {isNavbar && <Navbar2N />}
+    {isNavbar && <Navbar />}
     <main class="mt-2 m-auto w-full max-w-4xl flex-grow px-4 mb-6">
       <slot />
     </main>

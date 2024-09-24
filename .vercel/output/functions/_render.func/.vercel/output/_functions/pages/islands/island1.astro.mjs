@@ -1,6 +1,6 @@
 /* empty css                                     */
 import { c as createComponent, r as renderTemplate, d as renderComponent, m as maybeRenderHead } from '../../chunks/astro/server_Cp53ijaV.mjs';
-import { $ as $$MainLayout } from '../../chunks/MainLayout_DnVXclY1.mjs';
+import { $ as $$MainLayout } from '../../chunks/MainLayout_C51i-4E9.mjs';
 import { I as IslandReact } from '../../chunks/IslandReact_Bak2XgIJ.mjs';
 import { $ as $$Title } from '../../chunks/Title_B_m4qjsM.mjs';
 /* empty css                                     */
