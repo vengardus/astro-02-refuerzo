@@ -1,0 +1,65 @@
+---
+import type { CountryFilterFieldsResponse } from "@/interfaces/response/CountryFilterFieldsResponse.interface";
+
+interface Props {
+  country: CountryFilterFieldsResponse;
+}
+
+const { country } = Astro.props;
+
+const infoCountry: { label: string; value: string | string[] }[] = [
+  {
+    label: 'Nombre Oficial',
+    value: country.name.official,
+  },
+  {
+    label: 'Nombre Común',
+    value: country.name.common,
+  },
+  {
+    label: 'Capital',
+    value: country.capital,
+  },
+  {
+    label: 'Region',
+    value: country.region,
+  },
+  {
+    label: 'Moneda',
+    value: country.currencies[Object.keys(country.currencies)[0]].name,
+  },
+  {
+    label: 'Moneda-símbolo',
+    value: country.currencies[Object.keys(country.currencies)[0]].symbol,
+  }
+]
+---
+
+<section class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+  <div class="flex flex-col items-center gap-3">
+    <h1 class="font-bold text-gray-100 text-2xl">{country.name.common}</h1>
+    <div class="border border-1 h-90 w-96">
+      <img
+        src={country.flags.png}
+        alt={country.flags.alt ?? ""}
+        width="300"
+        height="300"
+        class={"w-full h-full object-content"}
+        transition:name={`${country.name.common}-image`}
+        transition:persist={`${country.name.common}-image`}
+      />
+    </div>
+  </div>
+
+  <div class="flex flex-col items-center gap-3">
+    <h1 class="font-bold text-gray-100 text-xl">Información:</h1>
+    <div class="grid grid-cols-2 gap-2">
+      {
+        infoCountry.map((info, key) => (
+          <p>{info.label}:</p>
+          <p>{info.value}</p>
+        ))
+      }
+    </div>
+  </div>
+</section>

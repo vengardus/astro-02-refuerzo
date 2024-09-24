@@ -1,16 +1,16 @@
 ---
-import type { CountryFilterFieldsResponse } from '@/interfaces/response/CountryFilterFieldsResponse.interface'
+import type { CountryFilterFieldsResponse } from "@/interfaces/response/CountryFilterFieldsResponse.interface";
 
 interface Props {
-  country: CountryFilterFieldsResponse
+  country: CountryFilterFieldsResponse;
 }
 
-const { country } = Astro.props
+const { country } = Astro.props;
 ---
 
 <div class="flex flex-col gap-2 items-center justify-center">
   <p>{country.name.common}</p>
-  <div class="border border-1 h-40 w-48">
+  <div class="border border-1 h-36 w-50">
     <a href={`/countries/${country.name.common}`}>
       <img
         src={country.flags.png}
@@ -18,6 +18,8 @@ const { country } = Astro.props
         width="100"
         height="100"
         class={"w-full h-full object-content"}
+        transition:name={`${country.name.common}-image`}
+        transition:persist={`${country.name.common}-image`}
       />
     </a>
   </div>

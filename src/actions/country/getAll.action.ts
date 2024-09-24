@@ -6,4 +6,3 @@ export const getAll = async () => {
   const data = await response.json();
   return data as CountryFilterFieldsResponse[];
 };
-

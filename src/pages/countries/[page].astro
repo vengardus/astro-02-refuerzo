@@ -3,7 +3,9 @@ export const prerender = true;
 
 import { getAllCountryFilterResponse } from "@/actions/index";
 import CountryCard from "@/components/countries/CountryCard.astro";
+import SectionCountriesGrid from "@/components/countries/SectionCountriesGrid.astro";
 import Pagination from "@/components/shared/Pagination.astro";
+import SearchForm from "@/components/shared/SearchForm.astro";
 import Title from "@/components/shared/Title.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 import type { GetStaticPaths, Page } from "astro";
@@ -14,18 +16,22 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+
 ---
 
 <MainLayout title="Vengardus | Countries">
-  <Title>Lista de paises</Title>
+  <div class="flex flex-col sm:flex-row w-full justify-between">
+    <Title>Lista de paises</Title>
+    <SearchForm />
+  </div>
 
-  <section class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-7 pt-3">
+  <SectionCountriesGrid>
     {
       page.data.map((country) => (
         <CountryCard country={country} />
       ))
     }
-  </section>
+  </SectionCountriesGrid>
 
   <Pagination page={page} />
 </MainLayout>

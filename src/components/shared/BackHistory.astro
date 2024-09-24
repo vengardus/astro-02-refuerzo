@@ -1,0 +1,11 @@
+---
+interface Props {
+  label?: string
+}
+
+const { label = 'Regresar' } = Astro.props
+---
+
+<button class="underline underline-offset-4 hover:text-blue-500 cursor-pointer" onclick="history.back()">
+  {label}
+</button>
