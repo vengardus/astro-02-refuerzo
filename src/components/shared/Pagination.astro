@@ -1,0 +1,30 @@
+---
+import type { Page } from 'astro'
+
+interface Props {
+  page: Page
+}
+
+const { page } = Astro.props
+---
+
+
+<section>
+  <div class="flex mt-10 items-center gap-4"> 
+    <a href={page.url.first} class:list={["btn", { disabled: !page.url.prev}]}>{'<<'}</a>
+    <a href={page.url.prev} class:list={["btn", { disabled: !page.url.prev}]}>Anterior</a>
+    <a href={page.url.next} class:list={["btn", { disabled: !page.url.next }]}>Siguiente</a>
+    <a href={page.url.last} class:list={["btn", { disabled: !page.url.next }]}>{'>>'}</a>
+    <div class="flex-1"></div>
+    <span class="font-bold">Página {page.currentPage} de {page.lastPage}</span>
+  </div>
+</section>
+
+<style>
+  .btn {
+    @apply bg-blue-600 text-slate-100 p-2 rounded-md hover:bg-blue-700
+  }
+  .disabled {
+    @apply bg-gray-600 text-gray-400 hover:bg-gray-600;
+  }
+</style>

@@ -1,11 +1,11 @@
 import type { Navbar } from "@/interfaces/shared/Navbar";
 
-export const siteInfo = {
+export const SITE_INFO = {
   title: "My Site",
   description: "This is my site",
 };
 
-export const navBarOptions: Navbar[] = [
+export const NAVBAR_OPTIONS: Navbar[] = [
   {
     name: "Home",
     path: "/",
@@ -30,7 +30,7 @@ export const navBarOptions: Navbar[] = [
   },
   {
     name: "Paises",
-    path: "/paises",
+    path: "/countries/1",
   },
   {
     name: "Blog",
@@ -41,3 +41,7 @@ export const navBarOptions: Navbar[] = [
     path: "/about",
   },
 ];
+
+export const COUNTRY = {
+  urlBaseApiCountries : "https://restcountries.com/v3.1"
+}

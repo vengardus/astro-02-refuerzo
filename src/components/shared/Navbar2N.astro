@@ -1,8 +1,8 @@
 ---
-import { navBarOptions } from "@/config/constants";
+import { NAVBAR_OPTIONS } from "@/config/constants";
 
 const currentPath = Astro.url.pathname;
-
+const navBarOptions = NAVBAR_OPTIONS;
 ---
 
 <nav class="bg-gray-900 text-white" x-data="{ openMobileMenu: false, openSubMenu: false }">

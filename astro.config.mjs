@@ -15,4 +15,9 @@ export default defineConfig({
       }
     )
   ],
+  image: {
+    remotePatterns: [{ protocol: "https" }],
+    domains: ["flagcdn.com/"],
+  },
+  //output: "server",
 });
