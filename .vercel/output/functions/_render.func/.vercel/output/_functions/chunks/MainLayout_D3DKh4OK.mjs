@@ -1,4 +1,4 @@
-import { c as createComponent, r as renderTemplate, e as addAttribute, a as createAstro, m as maybeRenderHead, f as renderTransition, d as renderComponent, g as renderHead, b as renderSlot } from './astro/server_Cp53ijaV.mjs';
+import { c as createComponent, r as renderTemplate, e as addAttribute, a as createAstro, m as maybeRenderHead, f as renderTransition, d as renderComponent, g as renderHead, b as renderSlot } from './astro/server_C2gm_5bW.mjs';
 /* empty css                          */
 /* empty css                          */
 
@@ -8,7 +8,7 @@ const $$ViewTransitions = createComponent(($$result, $$props, $$slots) => {
   Astro2.self = $$ViewTransitions;
   const { fallback = "animate" } = Astro2.props;
   return renderTemplate`<meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback"${addAttribute(fallback, "content")}>`;
-}, "/home/vengardus/projects/astro/02-refuerzo/node_modules/.pnpm/astro@4.15.8_rollup@4.22.4_typescript@5.6.2/node_modules/astro/components/ViewTransitions.astro", void 0);
+}, "/home/vengardus/projects/astro/02-refuerzo/node_modules/.pnpm/astro@4.15.9_rollup@4.22.4_typescript@5.6.2/node_modules/astro/components/ViewTransitions.astro", void 0);
 
 const SITE_INFO = {
   title: "My Site",

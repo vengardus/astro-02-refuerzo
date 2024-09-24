@@ -1,4 +1,4 @@
-import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as createAstro } from './astro/server_Cp53ijaV.mjs';
+import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as createAstro } from './astro/server_C2gm_5bW.mjs';
 
 const $$Astro = createAstro();
 const $$BackHistory = createComponent(($$result, $$props, $$slots) => {

@@ -1,6 +1,6 @@
-import { R as ROUTE_TYPE_HEADER, j as REROUTE_DIRECTIVE_HEADER, k as bold, l as red, y as yellow, n as dim, o as blue, p as decryptString, q as createSlotValueFromString, r as renderTemplate, d as renderComponent, D as DEFAULT_404_COMPONENT, t as renderSlotToString, u as renderJSX, v as chunkToString, w as isRenderInstruction, x as clientLocalsSymbol, z as clientAddressSymbol$1, A as ASTRO_VERSION, B as responseSentSymbol$1, C as renderPage, E as REWRITE_DIRECTIVE_HEADER_KEY, F as REWRITE_DIRECTIVE_HEADER_VALUE, G as renderEndpoint, H as REROUTABLE_STATUS_CODES, I as commonjsGlobal } from './astro/server_Cp53ijaV.mjs';
+import { R as ROUTE_TYPE_HEADER, j as REROUTE_DIRECTIVE_HEADER, k as bold, l as red, y as yellow, n as dim, o as blue, p as decryptString, q as createSlotValueFromString, r as renderTemplate, d as renderComponent, D as DEFAULT_404_COMPONENT, t as renderSlotToString, u as renderJSX, v as chunkToString, w as isRenderInstruction, x as clientLocalsSymbol, z as clientAddressSymbol$1, A as ASTRO_VERSION, B as responseSentSymbol$1, C as renderPage, E as REWRITE_DIRECTIVE_HEADER_KEY, F as REWRITE_DIRECTIVE_HEADER_VALUE, G as renderEndpoint, H as REROUTABLE_STATUS_CODES, I as commonjsGlobal } from './astro/server_C2gm_5bW.mjs';
 import { A as AstroError, q as i18nNoLocaleFoundInPath, s as appendForwardSlash, t as joinPaths, R as ResponseSentError, u as MiddlewareNoDataOrNextCalled, v as MiddlewareNotAResponse, G as GetStaticPathsRequired, w as InvalidGetStaticPathsReturn, x as InvalidGetStaticPathsEntry, y as GetStaticPathsExpectedParams, z as GetStaticPathsInvalidRouteParam, B as trimSlashes, P as PageNumberParamNotFound, C as NoMatchingStaticPathFound, H as PrerenderDynamicEndpointPathCollide, J as ReservedSlotName, L as LocalsNotAnObject, K as PrerenderClientAddressNotAvailable, Q as ClientAddressNotAvailable, S as StaticClientAddressNotAvailable, T as RewriteWithBodyUsed, U as AstroResponseHeadersReassigned, V as fileExtension, W as slash$1, X as prependForwardSlash, Y as removeTrailingForwardSlash } from './astro/assets-service_CshDUYLC.mjs';
-import { g as getActionQueryString, d as deserializeActionResult, e as ensure404Route, a as default404Instance, D as DEFAULT_404_ROUTE } from './astro-designed-error-pages_CWgnrksd.mjs';
+import { g as getActionQueryString, d as deserializeActionResult, e as ensure404Route, a as default404Instance, D as DEFAULT_404_ROUTE, N as NOOP_MIDDLEWARE_FN } from './astro-designed-error-pages_BLIucuBQ.mjs';
 import require$$1 from 'os';
 import require$$0 from 'path';
 import require$$0$1 from 'util';
@@ -1081,34 +1081,27 @@ async function callMiddleware(onRequest, apiContext, responseFunction) {
   });
 }
 
-async function renderRedirect(renderContext) {
-  const {
-    request: { method },
-    routeData
-  } = renderContext;
-  const { redirect, redirectRoute } = routeData;
-  const status = redirectRoute && typeof redirect === "object" ? redirect.status : method === "GET" ? 301 : 308;
-  const headers = { location: encodeURI(redirectRouteGenerate(renderContext)) };
-  return new Response(null, { status, headers });
-}
-function redirectRouteGenerate(renderContext) {
-  const {
-    params,
-    routeData: { redirect, redirectRoute }
-  } = renderContext;
-  if (typeof redirectRoute !== "undefined") {
-    return redirectRoute?.generate(params) || redirectRoute?.pathname || "/";
-  } else if (typeof redirect === "string") {
-    let target = redirect;
-    for (const param of Object.keys(params)) {
-      const paramValue = params[param];
-      target = target.replace(`[${param}]`, paramValue).replace(`[...${param}]`, paramValue);
+const FORM_CONTENT_TYPES = [
+  "application/x-www-form-urlencoded",
+  "multipart/form-data",
+  "text/plain"
+];
+function createOriginCheckMiddleware() {
+  return defineMiddleware((context, next) => {
+    const { request, url } = context;
+    const contentType = request.headers.get("content-type");
+    if (contentType) {
+      if (FORM_CONTENT_TYPES.includes(contentType.toLowerCase())) {
+        const forbidden = (request.method === "POST" || request.method === "PUT" || request.method === "PATCH" || request.method === "DELETE") && request.headers.get("origin") !== url.origin;
+        if (forbidden) {
+          return new Response(`Cross-site ${request.method} form submissions are forbidden`, {
+            status: 403
+          });
+        }
+      }
     }
-    return target;
-  } else if (typeof redirect === "undefined") {
-    return "/";
-  }
-  return redirect.destination;
+    return next();
+  });
 }
 
 const VALID_PARAM_TYPES = ["string", "number", "undefined"];
@@ -1486,6 +1479,25 @@ class Pipeline {
     if (callSetGetEnv && manifest.experimentalEnvGetSecretEnabled) ;
   }
   internalMiddleware;
+  resolvedMiddleware = void 0;
+  /**
+   * Resolves the middleware from the manifest, and returns the `onRequest` function. If `onRequest` isn't there,
+   * it returns a no-op function
+   */
+  async getMiddleware() {
+    if (this.resolvedMiddleware) {
+      return this.resolvedMiddleware;
+    } else {
+      const middlewareInstance = await this.middleware();
+      const onRequest = middlewareInstance.onRequest ?? NOOP_MIDDLEWARE_FN;
+      if (this.manifest.checkOrigin) {
+        this.resolvedMiddleware = sequence(createOriginCheckMiddleware(), onRequest);
+      } else {
+        this.resolvedMiddleware = onRequest;
+      }
+      return this.resolvedMiddleware;
+    }
+  }
 }
 
 function routeIsRedirect(route) {
@@ -1507,6 +1519,36 @@ const RedirectSinglePageBuiltModule = {
   onRequest: (_, next) => next(),
   renderers: []
 };
+
+async function renderRedirect(renderContext) {
+  const {
+    request: { method },
+    routeData
+  } = renderContext;
+  const { redirect, redirectRoute } = routeData;
+  const status = redirectRoute && typeof redirect === "object" ? redirect.status : method === "GET" ? 301 : 308;
+  const headers = { location: encodeURI(redirectRouteGenerate(renderContext)) };
+  return new Response(null, { status, headers });
+}
+function redirectRouteGenerate(renderContext) {
+  const {
+    params,
+    routeData: { redirect, redirectRoute }
+  } = renderContext;
+  if (typeof redirectRoute !== "undefined") {
+    return redirectRoute?.generate(params) || redirectRoute?.pathname || "/";
+  } else if (typeof redirect === "string") {
+    let target = redirect;
+    for (const param of Object.keys(params)) {
+      const paramValue = params[param];
+      target = target.replace(`[${param}]`, paramValue).replace(`[...${param}]`, paramValue);
+    }
+    return target;
+  } else if (typeof redirect === "undefined") {
+    return "/";
+  }
+  return redirect.destination;
+}
 
 async function getProps(opts) {
   const { logger, mod, routeData: route, routeCache, pathname, serverLike } = opts;
@@ -1635,6 +1677,58 @@ class Slots {
   }
 }
 
+function sequence(...handlers) {
+  const filtered = handlers.filter((h) => !!h);
+  const length = filtered.length;
+  if (!length) {
+    return defineMiddleware((_context, next) => {
+      return next();
+    });
+  }
+  return defineMiddleware((context, next) => {
+    let carriedPayload = void 0;
+    return applyHandle(0, context);
+    function applyHandle(i, handleContext) {
+      const handle = filtered[i];
+      const result = handle(handleContext, async (payload) => {
+        if (i < length - 1) {
+          if (payload) {
+            let newRequest;
+            if (payload instanceof Request) {
+              newRequest = payload;
+            } else if (payload instanceof URL) {
+              newRequest = new Request(payload, handleContext.request);
+            } else {
+              newRequest = new Request(
+                new URL(payload, handleContext.url.origin),
+                handleContext.request
+              );
+            }
+            const pipeline = Reflect.get(handleContext, apiContextRoutesSymbol);
+            const { routeData, pathname } = await pipeline.tryRewrite(
+              payload,
+              handleContext.request
+            );
+            carriedPayload = payload;
+            handleContext.request = newRequest;
+            handleContext.url = new URL(newRequest.url);
+            handleContext.cookies = new AstroCookies(newRequest);
+            handleContext.params = getParams(routeData, pathname);
+          }
+          return applyHandle(i + 1, handleContext);
+        } else {
+          return next(payload ?? carriedPayload);
+        }
+      });
+      return result;
+    }
+  });
+}
+
+function defineMiddleware(fn) {
+  return fn;
+}
+
 const apiContextRoutesSymbol = Symbol.for("context.routes");
 class RenderContext {
   constructor(pipeline, locals, middleware, pathname, request, routeData, status, cookies = new AstroCookies(request), params = getParams(routeData, pathname), url = new URL(request.url), props = {}) {
@@ -1658,7 +1752,7 @@ class RenderContext {
    * A safety net in case of loops
    */
   counter = 0;
-  static create({
+  static async create({
     locals = {},
     middleware,
     pathname,
@@ -1668,10 +1762,11 @@ class RenderContext {
     status = 200,
     props
   }) {
+    const pipelineMiddleware = await pipeline.getMiddleware();
     return new RenderContext(
       pipeline,
       locals,
-      sequence(...pipeline.internalMiddleware, middleware ?? pipeline.middleware),
+      sequence(...pipeline.internalMiddleware, middleware ?? pipelineMiddleware),
       pathname,
       request,
       routeData,
@@ -2088,58 +2183,6 @@ class RenderContext {
   }
 }
 
-function sequence(...handlers) {
-  const filtered = handlers.filter((h) => !!h);
-  const length = filtered.length;
-  if (!length) {
-    return defineMiddleware((_context, next) => {
-      return next();
-    });
-  }
-  return defineMiddleware((context, next) => {
-    let carriedPayload = void 0;
-    return applyHandle(0, context);
-    function applyHandle(i, handleContext) {
-      const handle = filtered[i];
-      const result = handle(handleContext, async (payload) => {
-        if (i < length - 1) {
-          if (payload) {
-            let newRequest;
-            if (payload instanceof Request) {
-              newRequest = payload;
-            } else if (payload instanceof URL) {
-              newRequest = new Request(payload, handleContext.request);
-            } else {
-              newRequest = new Request(
-                new URL(payload, handleContext.url.origin),
-                handleContext.request
-              );
-            }
-            const pipeline = Reflect.get(handleContext, apiContextRoutesSymbol);
-            const { routeData, pathname } = await pipeline.tryRewrite(
-              payload,
-              handleContext.request
-            );
-            carriedPayload = payload;
-            handleContext.request = newRequest;
-            handleContext.url = new URL(newRequest.url);
-            handleContext.cookies = new AstroCookies(newRequest);
-            handleContext.params = getParams(routeData, pathname);
-          }
-          return applyHandle(i + 1, handleContext);
-        } else {
-          return next(payload ?? carriedPayload);
-        }
-      });
-      return result;
-    }
-  });
-}
-
-function defineMiddleware(fn) {
-  return fn;
-}
-
 function getAssetsPrefix(fileExtension, assetsPrefix) {
   if (!assetsPrefix) return "";
   if (typeof assetsPrefix === "string") return assetsPrefix;
@@ -2205,29 +2248,6 @@ function matchRoute(pathname, manifest) {
   const decodedPathname = decodeURI(pathname);
   return manifest.routes.find((route) => {
     return route.pattern.test(decodedPathname) || route.fallbackRoutes.some((fallbackRoute) => fallbackRoute.pattern.test(decodedPathname));
-  });
-}
-
-const FORM_CONTENT_TYPES = [
-  "application/x-www-form-urlencoded",
-  "multipart/form-data",
-  "text/plain"
-];
-function createOriginCheckMiddleware() {
-  return defineMiddleware((context, next) => {
-    const { request, url } = context;
-    const contentType = request.headers.get("content-type");
-    if (contentType) {
-      if (FORM_CONTENT_TYPES.includes(contentType.toLowerCase())) {
-        const forbidden = (request.method === "POST" || request.method === "PUT" || request.method === "PATCH" || request.method === "DELETE") && request.headers.get("origin") !== url.origin;
-        if (forbidden) {
-          return new Response(`Cross-site ${request.method} form submissions are forbidden`, {
-            status: 403
-          });
-        }
-      }
-    }
-    return next();
   });
 }
 
@@ -2410,12 +2430,6 @@ class App {
    * @private
    */
   #createPipeline(manifestData, streaming = false) {
-    if (this.#manifest.checkOrigin) {
-      this.#manifest.middleware = sequence(
-        createOriginCheckMiddleware(),
-        this.#manifest.middleware
-      );
-    }
     return AppPipeline.create(manifestData, {
       logger: this.#logger,
       manifest: this.#manifest,
@@ -2572,7 +2586,7 @@ class App {
     let response;
     try {
       const mod = await this.#pipeline.getModuleForRoute(routeData);
-      const renderContext = RenderContext.create({
+      const renderContext = await RenderContext.create({
         pipeline: this.#pipeline,
         locals,
         pathname,
@@ -2658,10 +2672,10 @@ class App {
       }
       const mod = await this.#pipeline.getModuleForRoute(errorRouteData);
       try {
-        const renderContext = RenderContext.create({
+        const renderContext = await RenderContext.create({
           locals,
           pipeline: this.#pipeline,
-          middleware: skipMiddleware ? (_, next) => next() : void 0,
+          middleware: skipMiddleware ? NOOP_MIDDLEWARE_FN : void 0,
           pathname: this.#getPathnameFromRequest(request),
           request,
           routeData: errorRouteData,

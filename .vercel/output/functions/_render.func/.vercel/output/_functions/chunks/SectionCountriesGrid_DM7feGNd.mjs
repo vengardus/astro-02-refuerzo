@@ -1,4 +1,4 @@
-import { c as createComponent, r as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderTransition, a as createAstro, b as renderSlot } from './astro/server_Cp53ijaV.mjs';
+import { c as createComponent, r as renderTemplate, m as maybeRenderHead, e as addAttribute, f as renderTransition, a as createAstro, b as renderSlot } from './astro/server_C2gm_5bW.mjs';
 /* empty css                          */
 
 const $$Astro = createAstro();
