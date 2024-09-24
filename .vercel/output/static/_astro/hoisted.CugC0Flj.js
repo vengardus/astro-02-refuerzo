@@ -1,0 +1,1 @@
+import"./hoisted.BB6uRyKX.js";const e=document.getElementById("data"),n=document.getElementById("output"),o=document.getElementById("currentTime");function u(t){n.textContent=`Valor del input: ${t.target.value}`}e.addEventListener("change",u);setInterval(()=>{o.textContent=`Hora actual: ${new Date().toTimeString()}`},1e3);

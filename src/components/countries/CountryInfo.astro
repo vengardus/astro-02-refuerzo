@@ -55,7 +55,7 @@ const infoCountry: { label: string; value: string | string[] }[] = [
     <h1 class="font-bold text-gray-100 text-xl">Información:</h1>
     <div class="grid grid-cols-2 gap-2">
       {
-        infoCountry.map((info, key) => (
+        infoCountry.map((info) => (
           <p>{info.label}:</p>
           <p>{info.value}</p>
         ))

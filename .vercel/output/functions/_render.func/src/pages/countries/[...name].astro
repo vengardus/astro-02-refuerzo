@@ -1,0 +1,19 @@
+---
+import { getAllCountryFilterResponse } from "@/actions/index";
+import CountryInfo from "@/components/countries/CountryInfo.astro";
+import BackHistory from "@/components/shared/BackHistory.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+
+const { name } = Astro.params;
+
+const countries = await getAllCountryFilterResponse();
+const country = countries.find((country) => country.name.common === name);
+if (!country) {
+  return Astro.redirect("/404");
+}
+---
+
+<MainLayout title="Vengardus | Country">
+  <BackHistory />
+  <CountryInfo country={country} />
+</MainLayout>
