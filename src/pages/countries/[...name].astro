@@ -1,0 +1,18 @@
+---
+import { getAllCountryFilterResponse } from "@/actions/index";
+import CountryCard from "@/components/countries/CountryCard.astro";
+import MainLayout from "@/layouts/MainLayout.astro"
+
+const {name} = Astro.params
+
+const countries = await getAllCountryFilterResponse();
+const country = countries.find((country) => country.name.common === name);  
+if (!country) {
+  return Astro.redirect("/404");
+}
+---
+
+<MainLayout title="Vengardus | Country">
+  <button class="underline hover:text-blue-500 cursor-pointer" onclick="history.back()">Regrsesar</button>
+   <CountryCard country={country} />
+</MainLayout>
