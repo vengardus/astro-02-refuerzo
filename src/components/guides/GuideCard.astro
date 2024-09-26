@@ -4,11 +4,10 @@ import type { CollectionEntry } from "astro:content";
 import { Formatter } from "@/utils/formatter";
 
 interface Props {
-  guide: CollectionEntry<"guide">;
+  guide: CollectionEntry<"guides">;
 }
 
 const { guide } = Astro.props;
-const frontmatter = guide.data;
 ---
 
   <article class="flex flex-col w-full gap-2.5">

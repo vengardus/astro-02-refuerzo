@@ -10,14 +10,13 @@ if (slug === undefined) {
   throw new Error("Slug is required");
 }
 
-const guide = await getEntry("guide", slug);
+const guide = await getEntry("guides", slug);
 
 if (guide === undefined) {
   return Astro.redirect("/404");
 }
 
 const { Content } = await guide.render();
-console.log(guide)
 ---
 
 <BlogLayout title="Vengardus | Guide"> 
