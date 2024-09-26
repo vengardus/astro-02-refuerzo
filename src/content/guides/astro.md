@@ -7,8 +7,6 @@ tags: [Astro, Web Design, Frontend]
 category: Guides
 ---
 
-
-
 # GUIA PARA DESARROLLO EN ASTRO: [Doc. oficial](https://docs.astro.build/es/getting-started/)
 
 ## 1. INSTALACION Y CONFIGURACION: [ver..](https://docs.astro.build/es/install-and-setup/)
@@ -501,7 +499,7 @@ export default defineConfig({
       const { path } = Astro.params;
       ---
       ```
-    - **Modo Servidos (SSR)** 
+    - **Modo Servidor (SSR)** 
       - Se generan bajo demanda.
       - Se definen de la misma forma, entre corchetes
       - No se comilan con antelación, por tanto no se dbe usar el getStaticPaths
@@ -605,6 +603,7 @@ export default defineConfig({
     props: los props que reciube la pagina, ejem. el title de la pagina
   ```tsx
   ...
+  export const getStaticPaths = (async() => {
     return posts.map((post) => ({
       params: { slug: post.slug },
       props: { title: post.data.title },
@@ -727,3 +726,12 @@ await getCollection("blog", (post) => post.data.isDraft === false);
 - Vpolvi a subir el proyecto al repositorio de github.
 - El problema al parecer fue porque hice un run build y generó mal la primera vez y quedó la carpeta .vercel ma l creada.
 - No es necesario hacer el run build. Basta con asociar el repositorio en Vercel.
+
+### Error en Imagenes con Colecciones
+- En la exportación de las colecciones, equivoqué en el nombre y al oarecer qyuedó en  cacehe, puse en plkural guides y el linter suguería guide, no botaba aerror de linter pero si al cragar la pagina.
+  ```ts
+  export const collections = {
+      guide: guideCollection,   // coloqué guides y hacia referencia a guide
+      blog: blogCollection
+  }
+  ```

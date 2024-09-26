@@ -7,7 +7,7 @@ image: '../../assets/images/blog/post-03.png'
 tags: [React, JavaScript, Web Development]
 ---
 
-# Comprendiendo los Hooks de React
+# {frontmatter.title}
 
 Los Hooks de React son una característica que te permite usar el estado y otras características de React en componentes funcionales. Esto te permite escribir componentes más simples y reutilizables sin tener que convertirlos en clases.
 

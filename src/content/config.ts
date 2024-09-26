@@ -12,6 +12,8 @@ const guidesCollection = defineCollection({
         date: z.date(),
         tags: z.array(z.string()),
         category: z.string(),
+        // Relation
+        //category: reference("categories"),
     }),
 });
 
@@ -29,7 +31,7 @@ const blogCollection = defineCollection({
   
         // Relation
         author: z.string(),
-        //author: reference("author"),
+        //author: reference("authors"),
   
         // Relationm
         tags: z.array(z.string()),
