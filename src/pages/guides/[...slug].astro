@@ -1,7 +1,7 @@
 ---
 import Title from "@/components/shared/Title.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
-import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
 import { getEntry } from "astro:content";
 
 const {slug} = Astro.params;
@@ -22,12 +22,12 @@ const { Content } = await guide.render();
 <BlogLayout title="Vengardus | Guide"> 
   <Title>{guide.data.title}</Title>
   <div class="w-full h-96">
-    <Picture 
+    <Image 
       src={guide.data.image}
       alt=""
       class="object-cover w-full h-full"  
       quality={"medium"} 
-      formats={["avif", "webp"]}
+      format={"avif"}
       transition:name={`${guide.slug}-image`}
     />
   </div>
