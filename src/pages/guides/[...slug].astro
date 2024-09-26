@@ -22,14 +22,16 @@ const { Content } = await guide.render();
 <BlogLayout title="Vengardus | Guide"> 
   <Title>{guide.data.title}</Title>
   <div class="w-full h-96">
-    <Image 
-      src={guide.data.image}
-      alt=""
-      class="object-cover w-full h-full"  
-      quality={"medium"} 
-      format={"avif"}
-      transition:name={`${guide.slug}-image`}
-    />
+    <Image
+        src={guide.data.image}
+        alt=""
+        width={340}
+        height={340}
+        class="w-full h-full object-cover"
+        quality="low"
+        loading="lazy"
+        //format="avif"
+      />
   </div>
   <Content />
 </BlogLayout>
