@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content"
+import Title from "@/components/shared/Title.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+import GuideCard from "../../components/guides/GuideCard.astro";
+
+const guides = await getCollection("guide");
+
+console.log(guides);
+
+
+---
+
+<MainLayout title="Vengardus | Guides">
+  <Title >Guides</Title>
+
+  <section class="grid grid-cols-1 sm:grid-cols-2 gap-7 w-full pt-3">
+  {
+    guides.map((guide) => (
+      <GuideCard guide={guide} />
+    ))
+  }
+  </section>
+</MainLayout>

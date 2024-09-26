@@ -33,6 +33,10 @@ export const NAVBAR_OPTIONS: Navbar[] = [
     path: "/countries/1",
   },
   {
+    name: "Guides",
+    path: "/guides",
+  },
+  {
     name: "Blog",
     path: "/blog",
   },
