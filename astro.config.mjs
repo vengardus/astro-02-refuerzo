@@ -27,4 +27,6 @@ export default defineConfig({
   output: "server",
   adapter: vercel({
   }),
+
+  site: 'https://example.com',
 });            

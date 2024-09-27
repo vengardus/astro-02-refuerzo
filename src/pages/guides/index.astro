@@ -1,10 +1,10 @@
 ---
-import { getCollection } from "astro:content"
+import { getCollection, type CollectionEntry } from "astro:content"
 import Title from "@/components/shared/Title.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 import GuideCard from "../../components/guides/GuideCard.astro";
 
-const guides = await getCollection("guides");
+const guides: CollectionEntry<"guides">[] = await getCollection("guides");
 
 console.log(guides);
 
