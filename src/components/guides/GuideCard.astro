@@ -20,7 +20,7 @@ const { guide } = Astro.props;
         class="w-full h-full object-cover"
         quality="low"
         loading="lazy"
-        format=["avif", "webp", "jpeg", "png"]
+        formats={["avif", "webp", "jpeg", "png"]}
       />
     </div>
     <p class="text-lg pt-3">{guide.data.category}</p>
