@@ -1,7 +1,7 @@
 ---
 title: Guia Astro
 description: Ayuda memoria para aprender Astro .
-image: '../../assets/images/guides/guide-01.png'
+image: '../../assets/images/guides/guide-02.png'
 date: 2023-06-25
 tags: [Astro, Web Design, Frontend]
 category: Guides
@@ -398,7 +398,10 @@ Debe definirse un nombre único en el ***transition:name****.
     ```
     - En mis pruebas solo funcionó con la priumera alterntiva.
 
+
+
 ### 2.2. Pagination (https://docs.astro.build/es/reference/api-reference/#paginate)
+
   * Requiere una pagina ***[page].astro***
   * ***page*** es nombre reservado.
   * Se utilizará la función ***getStaticPaths()*** para generar los datos de paginación. 
@@ -419,7 +422,6 @@ Debe definirse un nombre único en el ***transition:name****.
   ---
   ```
 
-
 ### 2.3. Astro icons [documetación](https://www.astroicon.dev/)
   * Instalar imntegración
   ```bash
@@ -431,12 +433,13 @@ Debe definirse un nombre único en el ***transition:name****.
   * **Requiere carpeta** ***src/icons***
   * De **iconify** copiar **codigo svg** y **crear archivo**.
 
-### 2.4. Islas: React (https://docs.astro.build/es/guides/integrations-guide/react/)
+### 2.4. Islas: React [documentación](https://docs.astro.build/es/guides/integrations-guide/react/)
 * Instalar integración
 ```bash
   pnpm astro add react
 ``` 
 * Configuración de la integración: Indicar la ruta donde encontrar comṕnentes react. Se recomiendan que esten agrupados en una mism carpeta. Con la siguiiente configuración se podrá crear una carpeta react dentro de alguna carpeta de components, por ejemplo para dejar ahi los componentes de react. Ejemplo: `src/components/blog/react/`. Modificar el archivo `astro.config.mjs`
+
 ```json
 export default defineConfig({
   integrations: [
@@ -468,7 +471,8 @@ export default defineConfig({
     />
   ```
 
-### 2.5. Enrutamiento (https://docs.astro.build/es/guides/routing/)
+
+### 2.5. Enrutamiento [socumentación](https://docs.astro.build/es/guides/routing/)
   * Rutas estáticas y dinámicas
   * Rutas dinámicas: Se pueden generar de 2 formas:
     - **Modo Generación Estática(SSG) (modo por defecto):**
@@ -553,13 +557,13 @@ export default defineConfig({
       }
       ```
 ### 2.6. Colecciones Markdown
-- Instalando integración MDX (https://docs.astro.build/es/guides/integrations-guide/mdx/)
+- Instalando integración MDX [sdocumentación](https://docs.astro.build/es/guides/integrations-guide/mdx/)
   ```bash
   pnpm astro add mdx
   ```
-- Integración co VsCode: instalar extensión (https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)
+- Integración co VsCode: [instalar extensión] (https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx)
 - Tuve que refrescar explorer y reload window en Vscode.
-- Colecciones de contenidos (https://docs.astro.build/es/guides/content-collections/)
+- Colecciones de contenidos [documentación](https://docs.astro.build/es/guides/content-collections/)
 - Las colecciones deben ir en una carpeta reservada: src/content 
 - Ejem:
   ```bash
@@ -701,7 +705,7 @@ Segundo paramnetro de getCollection es una funcion (filter)
 await getCollection("blog", (post) => post.data.isDraft === false);
 
 
-## 4. Configuraciones, solución de errores, tips
+## 3. Configuraciones, solución de errores, tips
   
 ### Path Alias:
   Modificar tsconfig.json, agregar paths
