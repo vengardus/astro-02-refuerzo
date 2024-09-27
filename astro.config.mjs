@@ -28,5 +28,5 @@ export default defineConfig({
   adapter: vercel({
   }),
 
-  site: 'https://example.com',
+  site: 'https://astro-02-refuerzo.vercel.app/',
 });            
