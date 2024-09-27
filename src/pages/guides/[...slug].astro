@@ -1,8 +1,8 @@
 ---
+import BackHistory from "@/components/shared/BackHistory.astro";
 import Title from "@/components/shared/Title.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
-import MainLayout from "@/layouts/MainLayout.astro";
-import { Image } from "astro:assets";
+import { Picture } from "astro:assets";
 import { getEntry } from "astro:content";
 
 const {slug} = Astro.params;
@@ -20,21 +20,22 @@ if (guide === undefined) {
 const { Content } = await guide.render();
 ---
 
-<MainLayout title="Vengardus | Guide"> 
+<BlogLayout title="Vengardus | Guide"> 
+  <BackHistory />
   <Title>{guide.data.title}</Title>
   <div class="w-full h-96">
-    <Image 
+    <Picture
       src={guide.data.image}
       alt=""
       width={340}
       height={340}
       class="object-cover w-full h-full"  
       quality={"medium"} 
-      format={"avif"}
+      formats={["avif", "webp", "jpeg", "png"]}
       transition:name={`${guide.slug}-image`}
     />
   </div>
   <div class="w-full">
     <Content class="w-full"/>
   </div>
-</MainLayout>
+</BlogLayout>
